@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router'
 import useForm from '../../hooks/useForm'
 import useRequest from '../../hooks/useRequest'
 import { resetPassword } from '../../services/authService'
-import Alert from '../../components/Alert/Alert'
+import { Alert } from '../../components'
 import { getFriendlyMessage } from '../../utils/messageHandler'
 import { toast } from 'sonner'
 

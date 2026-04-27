@@ -5,17 +5,26 @@ import { getMessages, sendMessage, deleteMessage } from '../../services/messageS
 import { getWorkspaceById, updateWorkspace } from '../../services/workspaceService';
 import { getChannels, updateChannel } from '../../services/channelService';
 import { getDirectMessages, sendDirectMessage, deleteDirectMessage } from '../../services/directMessageService';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import Loader from '../../components/Loader/Loader';
+import { Sidebar, Loader } from '../../components';
 import { toast } from 'sonner';
 import { getFriendlyMessage } from '../../utils/messageHandler';
 import './WorkspaceScreen.css';
 
+/**
+ * Formatea una cadena de fecha a formato de hora (HH:MM).
+ * @param {string} dateString - Cadena de fecha.
+ * @returns {string} Hora formateada.
+ */
 const formatTime = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 };
 
+/**
+ * Genera un texto amigable para el separador de fechas (Hoy, Ayer o la fecha completa).
+ * @param {string} dateString - Cadena de fecha.
+ * @returns {string} Texto del separador.
+ */
 const formatDateSeparator = (dateString) => {
     const date = new Date(dateString);
     const today = new Date();
@@ -32,6 +41,11 @@ const formatDateSeparator = (dateString) => {
 };
 
 
+/**
+ * Genera un color consistente basado en el ID del usuario para los avatares.
+ * @param {string|number} userId - ID del usuario.
+ * @returns {string} Código de color hexadecimal.
+ */
 const getUserColor = (userId) => {
     const colors = [
         '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', 
@@ -39,7 +53,7 @@ const getUserColor = (userId) => {
         '#4CAF50', '#8BC34A', '#CDDC39', '#FFC107', 
         '#FF9800', '#FF5722', '#795548', '#607D8B'
     ];
-    // Simple hash for string or number IDs
+    // Hash simple para generar un índice basado en IDs de texto o números
     const id = typeof userId === 'number' ? userId : 
                (userId ? userId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : 0);
     return colors[id % colors.length];
@@ -55,6 +69,12 @@ const MessageStatus = ({ status, isMe, isDM }) => {
     );
 };
 
+/**
+ * Componente de pantalla del Espacio de Trabajo (Workspace).
+ * Gestiona la carga de mensajes, información del canal/miembro y la edición del espacio.
+ * 
+ * @component
+ */
 const WorkspaceScreen = () => {
     const { user } = useContext(AuthContext);
     const { workspace_id, channel_id, member_id } = useParams();
@@ -101,7 +121,7 @@ const WorkspaceScreen = () => {
     }, [workspace_id, channel_id, member_id]);
 
     useEffect(() => {
-        // Close sidebar on navigation on mobile
+        // Cerrar la barra lateral al navegar en dispositivos móviles
         setIsSidebarOpen(false);
     }, [channel_id, member_id]);
 
@@ -118,12 +138,12 @@ const WorkspaceScreen = () => {
     useEffect(() => {
         let interval;
         if (channel_id || member_id) {
-            // Initial load is already handled by the other useEffect
+            // La carga inicial ya está gestionada por el otro useEffect
             interval = setInterval(() => {
                 const id = channel_id || member_id;
                 const type = channel_id ? 'channel' : 'dm';
                 loadMessages(id, type, true);
-            }, 3000); // 3 seconds for better responsiveness
+            }, 3000); // 3 segundos para una mejor capacidad de respuesta
         }
 
         const handleFocus = () => {
@@ -140,6 +160,12 @@ const WorkspaceScreen = () => {
         };
     }, [workspace_id, channel_id, member_id]);
 
+    /**
+     * Carga los mensajes de un canal o chat directo.
+     * @param {string} id - ID del canal o miembro.
+     * @param {string} type - Tipo de mensaje ('channel' o 'dm').
+     * @param {boolean} isSilent - Si es true, no muestra el cargador (útil para polling).
+     */
     const loadMessages = async (id, type, isSilent = false) => {
         if (!isSilent) setLoadingMessages(true);
         try {
@@ -148,7 +174,7 @@ const WorkspaceScreen = () => {
                 : await getDirectMessages(workspace_id, id);
             
             if (response.ok) {
-                // Backend DMs use different field names sometimes, let's normalize
+                // Los DMs del backend a veces usan nombres de campo diferentes, vamos a normalizarlos
                 const normalized = response.data.map(msg => ({
                     channel_message_id: msg.message_id || msg.channel_message_id,
                     channel_message_created_at: msg.created_at || msg.channel_message_created_at,
@@ -158,13 +184,13 @@ const WorkspaceScreen = () => {
                     status: msg.status || 'enviado'
                 }));
                 
-                // Prevent unnecessary state updates if messages are identical
+                // Evitar actualizaciones de estado innecesarias si los mensajes son idénticos
                 setMessages(prev => {
                     const isIdentical = JSON.stringify(prev) === JSON.stringify(normalized);
                     return isIdentical ? prev : normalized;
                 });
 
-                // Mark unread messages as read (for DMs)
+                // Marcar mensajes no leídos como leídos (para DMs)
                 if (type === 'dm') {
                     const unread = normalized.filter(m => m.user_id !== user?.id && m.status !== 'leído');
                     if (unread.length > 0) {
@@ -172,7 +198,7 @@ const WorkspaceScreen = () => {
                         Promise.all(unread.map(m => markDirectMessageAsRead(workspace_id, m.channel_message_id)))
                             .catch(err => console.error("Error marking as read", err));
                         
-                        // Optimistically update local state if we're not polling (or even if we are)
+                        // Actualizar el estado local de forma optimista
                         setMessages(prev => prev.map(msg => 
                             (msg.user_id !== user?.id && msg.status !== 'leído') ? { ...msg, status: 'leído' } : msg
                         ));
@@ -190,7 +216,7 @@ const WorkspaceScreen = () => {
         try {
             const response = await getWorkspaceById(id);
             if (response.ok) {
-                // The backend returns { ok: true, data: { workspace: {...}, members: [...] } }
+                // El backend devuelve { ok: true, data: { workspace: {...}, members: [...] } }
                 const workspace = response.data.workspace;
                 setWorkspaceInfo(workspace);
                 setEditingWorkspaceName(workspace.title);
@@ -280,7 +306,7 @@ const WorkspaceScreen = () => {
             isOptimistic: true
         };
 
-        // Optimistic update
+        // Actualización optimista: mostramos el mensaje antes de que llegue al servidor
         setMessages(prev => [...prev, optimisticMsg]);
         setNewMessage('');
 
@@ -290,16 +316,16 @@ const WorkspaceScreen = () => {
                 : await sendDirectMessage(workspace_id, member_id, contentToSend);
 
             if (response.ok) {
-                // Refresh messages silently to replace the optimistic one with real data
+                // Refrescar mensajes silenciosamente para reemplazar el optimista con datos reales
                 if (channel_id) {
                     loadMessages(channel_id, 'channel', true);
                 } else {
                     loadMessages(member_id, 'dm', true);
                 }
             } else {
-                // Revert optimistic update on error
+                // Revertir la actualización optimista en caso de error
                 setMessages(prev => prev.filter(m => m.channel_message_id !== tempId));
-                setNewMessage(contentToSend); // Restore text
+                setNewMessage(contentToSend); // Restaurar el texto en el input
                 toast.error(getFriendlyMessage(response));
             }
         } catch (error) {

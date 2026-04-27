@@ -3,12 +3,17 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { createWorkspace, getWorkspaces, updateWorkspace, deleteWorkspace, restoreWorkspace } from '../../services/workspaceService';
 import { getChannels, createChannel, updateChannel, deleteChannel, restoreChannel, getDeletedChannels } from '../../services/channelService';
 import { AuthContext } from '../../context/AuthContext';
-import ThemeToggle from '../ThemeToggle/ThemeToggle';
+import { ThemeToggle, ConfirmModal } from '..';
 import { toast } from 'sonner';
 import { getFriendlyMessage } from '../../utils/messageHandler';
-import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import './Sidebar.css';
 
+/**
+ * Componente de barra lateral que gestiona la navegación entre espacios de trabajo,
+ * canales y mensajes directos. También permite la gestión de los mismos.
+ * 
+ * @component
+ */
 const Sidebar = () => {
     const navigate = useNavigate();
     const { workspace_id, channel_id, member_id: dm_member_id } = useParams();
@@ -439,7 +444,7 @@ const Sidebar = () => {
                 onConfirm={confirmModal.onConfirm}
                 onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
             />
-            {/* Workspaces Section */}
+            {/* Sección de Espacios de Trabajo */}
             <div className="workspaces-column">
                 <div className="column-header app-brand">
                     <h2 className="app-name">
@@ -577,7 +582,7 @@ const Sidebar = () => {
                     )}
                 </ul>
 
-                {/* User Profile Section at the bottom of Workspaces Column */}
+                {/* Sección del Perfil de Usuario en la parte inferior de la columna */}
                 <div className="sidebar-user-profile">
                     <div className="user-info">
                         <div className="user-avatar">
@@ -601,7 +606,7 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            {/* Channels & Members Section (Always visible for consistency) */}
+            {/* Sección de Canales y Miembros */}
             <div className="channels-column">
                 {!workspace_id ? (
                     <div className="no-workspace-selected">
@@ -691,7 +696,7 @@ const Sidebar = () => {
                             )}
                         </ul>
 
-                        {/* Deleted Channels Section */}
+                        {/* Sección de Canales Eliminados */}
                         <div className="deleted-channels-toggle" onClick={toggleDeletedChannels}>
                             <span>{showDeletedChannels ? '▼' : '▶'} Canales eliminados</span>
                         </div>
@@ -811,7 +816,7 @@ const Sidebar = () => {
                                                                             <span
                                                                                 className={`member-role-badge role-${member.member_role} ${canManageMembers && member.member_role !== 'owner' ? 'clickable-badge' : ''}`}
                                                                                 onClick={(e) => {
-                                                                                    e.preventDefault(); // Prevent Link navigation
+                                                                                    e.preventDefault(); // Evita la navegación del Link
                                                                                     canManageMembers && member.member_role !== 'owner' && setEditingMemberRoleId(member.member_id);
                                                                                 }}
                                                                                 title={canManageMembers && member.member_role !== 'owner' ? "Cambiar rol" : ""}

@@ -4,7 +4,7 @@ import useForm from '../../hooks/useForm'
 import { login } from '../../services/authService'
 import useRequest from '../../hooks/useRequest'
 import { AuthContext } from '../../context/AuthContext'
-import Alert from '../../components/Alert/Alert'
+import { Alert } from '../../components'
 import { getFriendlyMessage } from '../../utils/messageHandler'
 
 const LoginScreen = () => {

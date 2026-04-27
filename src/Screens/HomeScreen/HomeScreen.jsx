@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import { Sidebar } from '../../components';
 import { createWorkspace } from '../../services/workspaceService';
 import './HomeScreen.css';
 

@@ -1,18 +1,26 @@
 import React from 'react'
 import { Route, Routes } from 'react-router'
-import LoginScreen from './Screens/LoginScreen/LoginScreen'
-import RegisterScreen from './Screens/RegisterScreen/RegisterScreen'
-import ResetPasswordRequestScreen from './Screens/ResetPasswordRequestScreen/ResetPasswordRequestScreen'
-import ResetPasswordScreen from './Screens/ResetPasswordScreen/ResetPasswordScreen'
+import { 
+  LoginScreen, 
+  RegisterScreen, 
+  ResetPasswordRequestScreen, 
+  ResetPasswordScreen, 
+  HomeScreen, 
+  WorkspaceScreen, 
+  LandingScreen, 
+  InvitationScreen 
+} from './screens'
 import AuthContextProvider from './context/AuthContext'
-import AuthMiddleware from './Middlewares/AuthMiddleware'
-import HomeScreen from './Screens/HomeScreen/HomeScreen'
-import WorkspaceScreen from './Screens/WorkspaceScreen/WorkspaceScreen'
+import AuthMiddleware from './middlewares/AuthMiddleware'
 import ThemeToggle from './components/ThemeToggle/ThemeToggle'
-import LandingScreen from './Screens/LandingScreen/LandingScreen'
-import InvitationScreen from './Screens/InvitationScreen/InvitationScreen'
 import { Toaster } from 'sonner'
 
+/**
+ * Componente principal de la aplicación que gestiona las rutas y el proveedor de autenticación.
+ * 
+ * @component
+ * @returns {JSX.Element} El árbol de componentes de la aplicación con rutas configuradas.
+ */
 const App = () => {
   return (
     <>

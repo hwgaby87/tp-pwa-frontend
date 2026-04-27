@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import useForm from '../../hooks/useForm'
 import useRequest from '../../hooks/useRequest'
 import { resetPasswordRequest } from '../../services/authService'
-import Alert from '../../components/Alert/Alert'
+import { Alert } from '../../components'
 import { getFriendlyMessage } from '../../utils/messageHandler'
 
 const ResetPasswordRequestScreen = () => {

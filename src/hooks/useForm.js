@@ -12,6 +12,14 @@ Hay un estado interno donde se guarda el valor actual del campo title y descript
     }
 */
 
+/**
+ * Hook personalizado para gestionar el estado y envío de formularios.
+ * 
+ * @param {Object} options - Opciones del hook.
+ * @param {Object} options.initialFormState - Estado inicial de los campos del formulario.
+ * @param {Function} options.submitFn - Función que se ejecuta al enviar el formulario.
+ * @returns {Object} Objeto con el estado del formulario y manejadores de eventos.
+ */
 function useForm({ initialFormState, submitFn}) {
     const [formState, setFormState] = useState(
         initialFormState

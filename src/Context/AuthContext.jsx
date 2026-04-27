@@ -1,6 +1,10 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
+/**
+ * Contexto de autenticación para toda la aplicación.
+ * Proporciona el estado de logueo, los datos del usuario y funciones de control.
+ */
 export const AuthContext = createContext({
     isLogged: false,
     user: null,
@@ -10,6 +14,11 @@ export const AuthContext = createContext({
 
 export const LOCALSTORAGE_TOKEN_KEY = 'auth_token_slack';
 
+/**
+ * Decodifica un token JWT para extraer la información del usuario.
+ * @param {string} token - Token JWT.
+ * @returns {Object|null} Información del usuario decodificada o null si falla.
+ */
 const decodeToken = (token) => {
     try {
         const base64Url = token.split('.')[1];
@@ -23,6 +32,12 @@ const decodeToken = (token) => {
     }
 };
 
+/**
+ * Proveedor del contexto de autenticación.
+ * Maneja la persistencia del token en localStorage y el estado global del usuario.
+ * 
+ * @component
+ */
 function AuthContextProvider({ children }) {
     const navigate = useNavigate();
     const [isLogged, setIsLogged] = useState(
