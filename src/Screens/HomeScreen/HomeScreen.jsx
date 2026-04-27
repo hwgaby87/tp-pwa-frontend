@@ -1,0 +1,52 @@
+import React, { useState } from 'react';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import { createWorkspace } from '../../services/workspaceService';
+import './HomeScreen.css';
+
+const HomeScreen = () => {
+    const [showForm, setShowForm] = useState(false);
+    const [name, setName] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!name.trim()) return;
+
+        setLoading(true);
+        try {
+            const response = await createWorkspace(name);
+            if (response.ok) {
+                if (response.data?.workspace_id) {
+                    window.location.href = `/workspace/${response.data.workspace_id}`;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                alert(response.message || "Error al crear el espacio de trabajo");
+            }
+        } catch (error) {
+            console.error("Error creating workspace", error);
+            alert("Error al crear el espacio de trabajo");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="home-container">
+            <Sidebar />
+            <main className="home-main-content">
+                <div className="home-hero">
+                    <div className="welcome-illustration">🚀</div>
+                    <h1>Bienvenido a Conecta</h1>
+                    <p>
+                        Selecciona un espacio de trabajo en el panel lateral para comenzar,
+                        o crea uno nuevo para tu equipo.
+                    </p>
+                </div>
+            </main>
+        </div>
+    );
+};
+
+export default HomeScreen;

@@ -1,0 +1,63 @@
+.home-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.home-main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    padding: 2rem;
+}
+
+.home-hero {
+    max-width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.create-ws-btn {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(var(--accent-color-rgb), 0.3);
+    margin-top: 1.5rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.create-ws-btn::before {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.create-ws-btn:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(var(--accent-color-rgb), 0.4);
+    filter: brightness(1.1);
+}
+
+.create-ws-btn:active {
+    transform: translateY(-2px);
+}
+
+.welcome-illustration {
+    font-size: 5rem;
+}
