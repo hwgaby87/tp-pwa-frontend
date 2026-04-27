@@ -72,6 +72,7 @@ const WorkspaceScreen = () => {
     const [editingWorkspaceDescription, setEditingWorkspaceDescription] = useState('');
     const [isEditingChannel, setIsEditingChannel] = useState(false);
     const [editingChannelName, setEditingChannelName] = useState('');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         if (workspace_id) {
@@ -98,6 +99,11 @@ const WorkspaceScreen = () => {
         window.addEventListener('workspaceUpdated', handleSync);
         return () => window.removeEventListener('workspaceUpdated', handleSync);
     }, [workspace_id, channel_id, member_id]);
+
+    useEffect(() => {
+        // Close sidebar on navigation on mobile
+        setIsSidebarOpen(false);
+    }, [channel_id, member_id]);
 
     useEffect(() => {
         scrollToBottom();
@@ -325,13 +331,21 @@ const WorkspaceScreen = () => {
     };
 
     return (
-        <div className="workspace-layout">
-            <Sidebar />
+        <div className={`workspace-layout ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+            {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
             <main className="workspace-main-content">
                 {channel_id || member_id ? (
                     <>
                         {channel_id ? (
                             <div className="channel-header-container">
+                                <button 
+                                    className="mobile-menu-btn" 
+                                    onClick={() => setIsSidebarOpen(true)}
+                                    aria-label="Abrir menú"
+                                >
+                                    ☰
+                                </button>
                                 <div className="workspace-breadcrumb">
                                     {isEditingWorkspace ? (
                                         <form onSubmit={handleUpdateWorkspace} className="header-edit-form workspace-edit-popover">
@@ -395,6 +409,13 @@ const WorkspaceScreen = () => {
                             </div>
                         ) : (
                             <div className="channel-header-container dm-header">
+                                <button 
+                                    className="mobile-menu-btn" 
+                                    onClick={() => setIsSidebarOpen(true)}
+                                    aria-label="Abrir menú"
+                                >
+                                    ☰
+                                </button>
                                 <div className="workspace-breadcrumb">
                                     <span className="ws-breadcrumb-name">
                                         {workspaceInfo?.title || 'Espacio de Trabajo'}
@@ -505,6 +526,13 @@ const WorkspaceScreen = () => {
                     </>
                 ) : (
                     <div className="no-channel-selected">
+                        <button 
+                            className="mobile-menu-btn absolute" 
+                            onClick={() => setIsSidebarOpen(true)}
+                            aria-label="Abrir menú"
+                        >
+                            ☰
+                        </button>
                         <div className="select-icon-container">
                             <span className="floating-icon">💬</span>
                         </div>

@@ -7,6 +7,7 @@ const HomeScreen = () => {
     const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,9 +34,17 @@ const HomeScreen = () => {
     };
 
     return (
-        <div className="home-container">
-            <Sidebar />
+        <div className={`home-container ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+            {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
             <main className="home-main-content">
+                <button 
+                    className="mobile-menu-btn absolute" 
+                    onClick={() => setIsSidebarOpen(true)}
+                    aria-label="Abrir menú"
+                >
+                    ☰
+                </button>
                 <div className="home-hero">
                     <div className="welcome-illustration">🚀</div>
                     <h1>Bienvenido a Conecta</h1>
