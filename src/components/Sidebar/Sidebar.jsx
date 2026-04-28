@@ -55,6 +55,16 @@ const Sidebar = () => {
         type: 'danger'
     });
 
+    const [unreadChannels, setUnreadChannels] = useState(() => {
+        const saved = localStorage.getItem('unread_channels');
+        return saved ? JSON.parse(saved) : {};
+    });
+
+    const [unreadDMs, setUnreadDMs] = useState(() => {
+        const saved = localStorage.getItem('unread_dms');
+        return saved ? JSON.parse(saved) : {};
+    });
+
     const activeWorkspaces = workspaces.filter(ws => ws.workspace_active !== false);
     const archivedWorkspaces = workspaces.filter(ws => 
         ws.workspace_active === false && ws.member_role === 'owner'
@@ -98,6 +108,53 @@ const Sidebar = () => {
             setEditingChannelId(null);
         }
     }, [workspace_id]);
+
+    // Lógica para marcar canales como leídos al entrar
+    useEffect(() => {
+        if (channel_id) {
+            setUnreadChannels(prev => {
+                const newState = { ...prev };
+                delete newState[channel_id];
+                localStorage.setItem('unread_channels', JSON.stringify(newState));
+                return newState;
+            });
+        }
+        if (dm_member_id) {
+            setUnreadDMs(prev => {
+                const newState = { ...prev };
+                delete newState[dm_member_id];
+                localStorage.setItem('unread_dms', JSON.stringify(newState));
+                return newState;
+            });
+        }
+    }, [channel_id, dm_member_id]);
+
+    // Escuchar nuevos mensajes para marcar como no leídos
+    useEffect(() => {
+        const handleNewMessage = (e) => {
+            const { channelId, senderId, workspaceId: msgWsId } = e.detail;
+            
+            // Solo si es del workspace actual
+            if (msgWsId !== workspace_id) return;
+
+            if (channelId && channelId !== channel_id) {
+                setUnreadChannels(prev => {
+                    const newState = { ...prev, [channelId]: true };
+                    localStorage.setItem('unread_channels', JSON.stringify(newState));
+                    return newState;
+                });
+            } else if (senderId && senderId !== dm_member_id && senderId !== user?.id) {
+                setUnreadDMs(prev => {
+                    const newState = { ...prev, [senderId]: true };
+                    localStorage.setItem('unread_dms', JSON.stringify(newState));
+                    return newState;
+                });
+            }
+        };
+
+        window.addEventListener('newMessageReceived', handleNewMessage);
+        return () => window.removeEventListener('newMessageReceived', handleNewMessage);
+    }, [workspace_id, channel_id, dm_member_id, user?.id]);
 
     const loadWorkspaces = async () => {
         setLoadingWorkspaces(true);
@@ -679,6 +736,7 @@ const Sidebar = () => {
                                                     >
                                                         <div className="channel-hash">#</div>
                                                         <span className="channel-name">{channel.channel_name}</span>
+                                                        {unreadChannels[channel.channel_id] && <div className="unread-indicator" title="Mensajes sin leer"></div>}
                                                     </Link>
                                                     <div className="channel-actions">
                                                         {canManageMembers && (
@@ -784,6 +842,7 @@ const Sidebar = () => {
                                                             </div>
                                                             <div className="member-name-container">
                                                                 <span className="member-name-small">{member.user_name || member.user_email} (tú)</span>
+                                                                {unreadDMs[member.member_id] && <div className="unread-indicator" title="Mensajes sin leer"></div>}
                                                                 <span className={`member-role-badge role-${member.member_role}`}>
                                                                     {member.member_role === 'owner' ? 'creador' :
                                                                         member.member_role === 'admin' ? 'admin' : 'normal'}
@@ -805,6 +864,7 @@ const Sidebar = () => {
                                                                 </div>
                                                                 <div className="member-name-container">
                                                                     <span className="member-name-small">{member.user_name || member.user_email}</span>
+                                                                    {unreadDMs[member.member_id] && <div className="unread-indicator" title="Mensajes sin leer"></div>}
                                                                     {member.member_role === 'owner' || member.invitation_status === 'accepted' ? (
                                                                         editingMemberRoleId === member.member_id ? (
                                                                             <select
