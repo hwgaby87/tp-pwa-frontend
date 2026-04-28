@@ -83,6 +83,15 @@
         background-color: var(--bg-input);
     }
 
+    @media (max-width: 400px) {
+        .workspaces-column .sidebar-form {
+            width: calc(100vw - 100px);
+            left: 100%;
+            margin-left: 5px;
+            padding: 1rem;
+        }
+    }
+
     .workspaces-column .app-brand {
         justify-content: center;
         flex-direction: column;
@@ -405,6 +414,7 @@
 
 .sidebar-form input,
 .sidebar-textarea {
+    width: 100%;
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
