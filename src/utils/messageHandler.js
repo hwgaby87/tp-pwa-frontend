@@ -56,10 +56,11 @@ export const getFriendlyMessage = (response, fallback = "Ocurrió un error inesp
         return ERROR_MESSAGES["CONNECTION_ERROR"];
     }
 
-    // Buscamos un código de error específico devuelto por el backend
-    // El backend suele devolver { ok: false, message: "CODE", ... }
+    // Buscamos un código de error o mensaje específico devuelto por el backend
+    // El backend suele devolver { ok: false, message: "CODE", ... } o { ok: false, message: "Mensaje amigable" }
     const messageCode = response.message || response.code;
 
+    // 1. Intentamos mapear si es un código técnico conocido
     if (ERROR_MESSAGES[messageCode]) {
         return ERROR_MESSAGES[messageCode];
     }
@@ -68,16 +69,20 @@ export const getFriendlyMessage = (response, fallback = "Ocurrió un error inesp
         return SUCCESS_MESSAGES[messageCode];
     }
 
-    // Si el mensaje es una cadena larga (probablemente un mensaje amigable ya enviado por el backend)
-    // Pero queremos asegurarnos de que no sea información sensible (como errores de SQL)
+    // 2. Si no es un código conocido, pero hay un mensaje, lo mostramos tal cual (si no es sensible)
     if (typeof messageCode === 'string' && messageCode.length > 0) {
-        // Filtro básico de seguridad
-        const sensitiveKeywords = ['sql', 'mongodb', 'database', 'undefined', 'null', 'at ', 'stack'];
+        // Filtro básico de seguridad para no mostrar errores crudos de base de datos o código
+        const sensitiveKeywords = ['sql', 'mongodb', 'database', 'undefined', 'null', 'at ', 'stack', 'mongoerror'];
         const isSensitive = sensitiveKeywords.some(key => messageCode.toLowerCase().includes(key));
         
         if (!isSensitive) {
             return messageCode;
         }
+    }
+
+    // 3. Caso especial: si el objeto tiene un campo 'error' (algunos backends o librerías lo usan)
+    if (response.error && typeof response.error === 'string') {
+        return response.error;
     }
 
     return fallback;

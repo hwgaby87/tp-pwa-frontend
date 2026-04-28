@@ -15,16 +15,14 @@ export async function login ({email, password}){
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(
-                {
-                    email, 
-                    password
-                }
-            )
+            body: JSON.stringify({ email, password })
         }
     )
 
     const response = await response_http.json()
+    if (!response_http.ok) {
+        response.ok = false;
+    }
     return response
 }
 
@@ -38,7 +36,6 @@ export async function login ({email, password}){
  * @returns {Promise<Object>} Respuesta de la API.
  */
 export async function register ({email, password, name}){
-    console.log("fetch")
     const response_http = await fetch(
         `${ENVIRONMENT.API_URL}/api/auth/register`,
         {
@@ -46,16 +43,13 @@ export async function register ({email, password, name}){
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(
-                {
-                    email, 
-                    password,
-                    name
-                }
-            )
+            body: JSON.stringify({ email, password, name })
         }
     )
     const response = await response_http.json()
+    if (!response_http.ok) {
+        response.ok = false;
+    }
     return response
 }
 
@@ -85,6 +79,9 @@ export async function resetPasswordRequest ({email}){
     )
 
     const response = await response_http.json()
+    if (!response_http.ok) {
+        response.ok = false;
+    }
     return response
 }
 

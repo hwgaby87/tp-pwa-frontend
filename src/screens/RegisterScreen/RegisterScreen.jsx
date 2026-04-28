@@ -32,6 +32,7 @@ const RegisterScreen = () => {
 
     function onRegister(formState) {
         setSuccessMessage(null); // Clear previous success msg
+        setErrorMessage(null); // Clear previous error msg
         try {
             sendRequest(
                 {

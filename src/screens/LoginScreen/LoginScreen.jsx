@@ -30,6 +30,7 @@ const LoginScreen = () => {
     const [errorMessage, setErrorMessage] = useState(null)
 
     function onLogin (formState){
+        setErrorMessage(null)
         sendRequest({
             requestCb: async () => {
                 return await login({
