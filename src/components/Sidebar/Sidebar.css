@@ -83,12 +83,27 @@
         background-color: var(--bg-input);
     }
 
-    @media (max-width: 400px) {
-        .workspaces-column .sidebar-form {
-            width: calc(100vw - 100px);
-            left: 100%;
-            margin-left: 5px;
-            padding: 1rem;
+    @media (max-width: 480px) {
+        .app-sidebar .sidebar-form {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 85vw;
+            max-width: 320px;
+            z-index: 2000;
+            background-color: var(--bg-input);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5), 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            border: 1px solid var(--border-color);
+            animation: authFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .app-sidebar .sidebar-form input,
+        .app-sidebar .sidebar-textarea {
+            background-color: var(--bg-main);
         }
     }
 
