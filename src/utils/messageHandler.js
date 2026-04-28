@@ -71,19 +71,22 @@ export const getFriendlyMessage = (response, fallback = "Ocurrió un error inesp
 
     // 2. Si no es un código conocido, pero hay un mensaje, lo mostramos tal cual (si no es sensible)
     if (typeof messageCode === 'string' && messageCode.length > 0) {
-        // Filtro básico de seguridad para no mostrar errores crudos de base de datos o código
-        const sensitiveKeywords = ['sql', 'mongodb', 'database', 'undefined', 'null', 'at ', 'stack', 'mongoerror'];
+        // Filtro de seguridad robusto para no mostrar errores crudos de base de datos, código o trazas
+        const sensitiveKeywords = [
+            'sql', 'mongodb', 'database', 'undefined', 'null', 'at ', 'stack', 'mongoerror',
+            'referenceerror', 'typeerror', 'syntaxerror', 'internal server error', 'bsonerror',
+            'tokenerror', 'path ', 'node_modules', 'repository', 'controller', 'service'
+        ];
+        
         const isSensitive = sensitiveKeywords.some(key => messageCode.toLowerCase().includes(key));
         
-        if (!isSensitive) {
+        // También detectamos si el mensaje parece una ruta de archivo o una traza de stack
+        const looksLikeStackTrace = messageCode.includes(':/') || messageCode.includes(':\\') || messageCode.split('\n').length > 1;
+
+        if (!isSensitive && !looksLikeStackTrace) {
             return messageCode;
         }
     }
 
-    // 3. Caso especial: si el objeto tiene un campo 'error' (algunos backends o librerías lo usan)
-    if (response.error && typeof response.error === 'string') {
-        return response.error;
-    }
-
-    return fallback;
+    return ERROR_MESSAGES["SERVER_ERROR"] || fallback;
 };
