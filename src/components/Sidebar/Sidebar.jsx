@@ -454,7 +454,7 @@ const Sidebar = () => {
                             <circle cx="65" cy="35" r="8" fill="#ffffff"/>
                             <circle cx="65" cy="65" r="8" fill="#ffffff"/>
                         </svg>
-                        Conecta
+                        <span className="app-name-text">Conecta</span>
                     </h2>
                     <button
                         className="add-btn"

@@ -47,17 +47,28 @@
     }
     
     .workspaces-column .ws-name,
-    .workspaces-column .app-name,
+    .workspaces-column .app-name-text,
     .workspaces-column .user-details,
-    .workspaces-column .add-btn,
     .workspaces-column .ws-actions,
     .workspaces-column .sidebar-form,
     .workspaces-column .toggle-header span:first-child {
         display: none;
     }
 
+    .workspaces-column .add-btn {
+        display: flex;
+        margin-top: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        font-size: 1.2rem;
+    }
+
     .workspaces-column .app-brand {
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
     }
 
     .workspaces-column .workspace-list li a {
