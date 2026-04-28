@@ -60,6 +60,8 @@ const Sidebar = () => {
         ws.workspace_active === false && ws.member_role === 'owner'
     );
 
+    const selectedWorkspace = workspaces.find(w => w.workspace_id.toString() === workspace_id);
+
     useEffect(() => {
         loadWorkspaces();
 
@@ -617,7 +619,7 @@ const Sidebar = () => {
                     <>
                         <div className="mobile-workspace-context">
                             <span className="mobile-ws-label">Espacio actual:</span>
-                            <h2 className="mobile-ws-name">{selectedWorkspace?.name}</h2>
+                            <h2 className="mobile-ws-name">{selectedWorkspace?.workspace_title}</h2>
                         </div>
                         <div className="column-header">
                             <h3><span className="header-icon">💬</span> Canales</h3>
