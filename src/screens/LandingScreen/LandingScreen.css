@@ -125,7 +125,7 @@
 .features-section {
     padding: 4rem 5% 6rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -181,7 +181,7 @@
     .hero-cta {
         flex-direction: column;
         width: 100%;
-        max-width: 320px;
+        max-width: 100%;
         margin: 0 auto;
         gap: 1rem;
     }
@@ -224,7 +224,7 @@
     }
     
     .feature-card {
-        padding: 1.5rem;
+        padding: 1.5rem 1rem;
     }
     
     .hero-title {
