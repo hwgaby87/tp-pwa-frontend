@@ -615,6 +615,10 @@ const Sidebar = () => {
                     </div>
                 ) : (
                     <>
+                        <div className="mobile-workspace-context">
+                            <span className="mobile-ws-label">Espacio actual:</span>
+                            <h2 className="mobile-ws-name">{selectedWorkspace?.name}</h2>
+                        </div>
                         <div className="column-header">
                             <h3><span className="header-icon">💬</span> Canales</h3>
                             {canManageMembers && (

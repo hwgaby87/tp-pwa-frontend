@@ -119,6 +119,10 @@
         padding: 0.5rem;
     }
 
+    .workspaces-column    .sidebar-user-profile {
+        padding: 0.8rem;
+    }
+
     .workspaces-column .sidebar-user-profile {
         padding: 1rem 0.5rem;
         flex-direction: column;
@@ -1160,4 +1164,38 @@ li:hover .item-actions {
     text-decoration: none;
     color: inherit;
     min-width: 0;
+}
+
+/* Mobile Workspace Context (Only visible on small screens) */
+.mobile-workspace-context {
+    display: none;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    background-color: var(--bg-active);
+}
+
+@media (max-width: 768px) {
+    .mobile-workspace-context {
+        display: block;
+    }
+}
+
+.mobile-ws-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.mobile-ws-name {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
