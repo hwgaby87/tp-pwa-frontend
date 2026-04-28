@@ -12,7 +12,7 @@ La idea es usar a useRequest POR CADA CONSULTA AL SERVIDOR
 Nos sirve para centralizar y reutilizar el comoportamiento a nivel de estados de nuestra app cuando hace una consulta al servidor
 */
 
-function useRequest (){
+function useRequest() {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -21,21 +21,20 @@ function useRequest (){
     /* 
     Recibe una funcion que emita un consulta al servidor por parametro (Callback)
     */
-    async function sendRequest( {requestCb} ){
-        console.log('hola')
-        try{
+    async function sendRequest({ requestCb }) {
+        try {
             setResponse(null) //Si habia una consulta anterior quiero limpiar la respuesta
             setError(null) //Si habia una consulta anterior quiero limpiar el error
             setLoading(true) //Como inicio una consulta al servidor quiero marcar que estamos cargando la respuesta
             const response = await requestCb()
-        
+
             setResponse(response) //Se guarda la respuesta
         }
-        catch(error){
+        catch (error) {
             console.log(error)
             setError(error) //Se guarda el error
         }
-        finally{
+        finally {
             setLoading(false) //Pase lo que pase (error o todo bien) cargando vuelve a ser false
         }
     }
