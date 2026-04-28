@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     background-color: var(--bg-main);
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .landing-header {
@@ -206,7 +208,7 @@
     .landing-header {
         flex-direction: column;
         gap: 0.8rem;
-        padding: 1rem;
+        padding: 1rem 0.5rem;
         text-align: center;
     }
     
@@ -237,29 +239,42 @@
 }
 
 @media (max-width: 350px) {
+    .landing-header {
+        padding: 0.8rem 0.3rem !important;
+    }
+
     .logo h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     .landing-nav {
         flex-wrap: wrap;
-        gap: 0.5rem;
+        justify-content: center;
+        gap: 0.4rem;
+        width: 100%;
     }
     
     .nav-link {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.5rem;
     }
     
     .button-primary {
-        padding: 0.4rem 0.8rem;
+        padding: 0.4rem 0.6rem;
     }
     
     .hero-title {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
     
     .button-large {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        padding: 0.7rem 1rem;
+    }
+
+    .landing-footer {
+        padding: 1.5rem 1rem;
+        font-size: 0.8rem;
     }
 }
 
