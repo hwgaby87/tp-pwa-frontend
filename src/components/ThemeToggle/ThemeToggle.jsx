@@ -1,18 +1,18 @@
+/**
+ * @file ThemeToggle.jsx
+ * @description Componente para alternar entre el modo claro y oscuro de la aplicación.
+ * Persiste la preferencia del usuario en el localStorage.
+ */
+
 import React, { useEffect, useState } from 'react';
 
 const ThemeToggle = () => {
     const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
-        // Check saved theme. By default use light theme.
-        const savedTheme = localStorage.getItem('app-theme');
-        if (savedTheme === 'dark') {
-            setIsDark(true);
-            document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-            setIsDark(false);
-            document.documentElement.removeAttribute('data-theme');
-        }
+        // Sync local state with document attribute set by App.jsx
+        const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+        setIsDark(isDarkTheme);
     }, []);
 
     const toggleTheme = () => {

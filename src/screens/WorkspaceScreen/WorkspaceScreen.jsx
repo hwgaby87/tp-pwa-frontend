@@ -1,8 +1,12 @@
 /**
  * @file WorkspaceScreen.jsx
- * @description Pantalla principal de trabajo.
- * Este componente gestiona el layout del espacio de trabajo seleccionado, incluyendo
- * el encabezado global, el chat del canal y la integración con la barra lateral.
+ * @description Pantalla principal de trabajo de la aplicación.
+ * Este componente es el corazón de la experiencia de usuario, gestionando:
+ * - Visualización de mensajes en tiempo real (Polling).
+ * - Envío y eliminación de mensajes en canales y chats directos.
+ * - Edición de la información del espacio de trabajo (nombre, descripción, imagen).
+ * - Navegación entre diferentes canales y miembros.
+ * - Soporte para diseño responsivo móvil.
  */
 
 import React, { useEffect, useState, useContext, useRef } from 'react';
@@ -522,7 +526,15 @@ const WorkspaceScreen = () => {
                             <div className="channel-header-container dm-header">
                                 <div className="channel-info-row">
                                     <div className="partner-avatar" style={{ backgroundColor: getUserColor(dmMemberInfo?.user_id) }}>
-                                        {dmMemberInfo?.user_name?.substring(0, 1).toUpperCase() || '@'}
+                                        {dmMemberInfo?.user_image ? (
+                                            <img 
+                                                src={dmMemberInfo.user_image.startsWith('http') ? dmMemberInfo.user_image : `${ENVIRONMENT.API_URL}${dmMemberInfo.user_image}`} 
+                                                alt={dmMemberInfo.user_name} 
+                                                className="avatar-img" 
+                                            />
+                                        ) : (
+                                            dmMemberInfo?.user_name?.substring(0, 1).toUpperCase() || '@'
+                                        )}
                                     </div>
                                     <h2>{dmMemberInfo?.user_name || 'Cargando...'}</h2>
                                     <span className="member-status-dot online"></span>
@@ -568,7 +580,15 @@ const WorkspaceScreen = () => {
                                                             className="msg-avatar-small"
                                                             style={{ backgroundColor: getUserColor(msg.user_id) }}
                                                         >
-                                                            {msg.user_name?.substring(0, 1).toUpperCase() || 'U'}
+                                                            {msg.user_image ? (
+                                                                <img 
+                                                                    src={msg.user_image.startsWith('http') ? msg.user_image : `${ENVIRONMENT.API_URL}${msg.user_image}`} 
+                                                                    alt={msg.user_name} 
+                                                                    className="avatar-img" 
+                                                                />
+                                                            ) : (
+                                                                msg.user_name?.substring(0, 1).toUpperCase() || 'U'
+                                                            )}
                                                         </div>
                                                     )}
                                                     <div className="message-bubble">

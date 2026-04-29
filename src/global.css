@@ -1,19 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Light Earthy Theme - Minimalist & Warm */
-  --bg-main: #faf6f0; /* Warm white/beige */
-  --bg-sidebar: #f2ebe1; /* Soft sand */
+  /* Premium Light Theme - Clean & Professional */
+  --bg-main: #fcfaf7; /* Ultra-light warm parchment */
+  --bg-sidebar: #f5f0e8; /* Soft sand */
+  --bg-chat: #ffffff;
   --bg-input: #ffffff;
-  --bg-hover: #e6decb;
-  --bg-active: #d6cab3;
-  --text-main: #4a3f35; /* Dark espresso brown */
+  --bg-hover: #ede4d5;
+  --bg-active: #e2d8c5;
+  --text-main: #2d241e; /* Deep espresso */
   --text-muted: #7d6e60; /* Soft taupe */
-  --accent-color: #c47c5e; /* Terracotta / Rust */
+  --accent-color: #c47c5e; /* Terracotta */
   --accent-color-rgb: 196, 124, 94;
   --accent-hover: #a86448;
   --border-color: #e3d8c8;
-  --shadow-color: rgba(74, 63, 53, 0.08);
+  --shadow-color: rgba(45, 36, 30, 0.06);
 
   --font-family: 'Outfit', 'Inter', 'Segoe UI', 'Roboto', sans-serif;
 
@@ -27,19 +28,20 @@
 }
 
 [data-theme='dark'] {
-  /* Dark Earthy Theme - Deep & Cozy */
-  --bg-main: #2a2522; /* Deep warm charcoal */
-  --bg-sidebar: #211c19; /* Almost black warm brown */
-  --bg-input: #36302c;
-  --bg-hover: #453e39;
-  --bg-active: #5c524b;
-  --text-main: #ebe5df; /* Soft warm white */
-  --text-muted: #b5aba1;
-  --accent-color: #d68b6d; /* Muted terracotta */
+  /* Premium Dark Theme - Deep & Elegant */
+  --bg-main: #0f0d0c;
+  --bg-sidebar: #0a0807;
+  --bg-chat: #0f0d0c;
+  --bg-input: #1a1614;
+  --bg-hover: #231e1b;
+  --bg-active: #2d2724;
+  --text-main: #f5f2f0;
+  --text-muted: #9c8e82;
+  --accent-color: #d68b6d;
   --accent-color-rgb: 214, 139, 109;
   --accent-hover: #e8a082;
-  --border-color: #3f3833;
-  --shadow-color: rgba(0, 0, 0, 0.3);
+  --border-color: #231e1b;
+  --shadow-color: rgba(0, 0, 0, 0.6);
 }
 
 body {
@@ -48,7 +50,7 @@ body {
   font-family: var(--font-family);
   background-color: var(--bg-main);
   color: var(--text-main);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-font-smoothing: antialiased;
 }
 

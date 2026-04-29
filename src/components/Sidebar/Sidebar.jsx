@@ -11,8 +11,14 @@ import './Sidebar.css';
 
 
 /**
- * Componente de barra lateral que gestiona la navegación entre espacios de trabajo,
- * canales y mensajes directos. También permite la gestión de los mismos.
+ * @file Sidebar.jsx
+ * @description Componente de barra lateral principal.
+ * Gestiona la navegación compleja de la aplicación, incluyendo:
+ * - Selección y administración de Espacios de Trabajo (Workspaces).
+ * - Navegación entre Canales públicos y Mensajes Directos (DMs).
+ * - Gestión de membresías e invitaciones.
+ * - Indicadores de mensajes no leídos.
+ * - Acceso al perfil del usuario y configuración de tema.
  * 
  * @component
  */

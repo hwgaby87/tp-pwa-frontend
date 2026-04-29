@@ -1,3 +1,9 @@
+/**
+ * @file messageService.js
+ * @description Servicio para la gestión de mensajes en canales públicos.
+ * Proporciona funciones para obtener, enviar y eliminar mensajes de los canales.
+ */
+
 import ENVIRONMENT from "../config/environment";
 import { LOCALSTORAGE_TOKEN_KEY } from "../context/AuthContext";
 

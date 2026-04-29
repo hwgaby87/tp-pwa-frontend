@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { 
   LoginScreen, 
@@ -16,12 +16,24 @@ import ThemeToggle from './components/ThemeToggle/ThemeToggle'
 import { Toaster } from 'sonner'
 
 /**
- * Componente principal de la aplicación que gestiona las rutas y el proveedor de autenticación.
+ * @file App.jsx
+ * @description Componente raíz de la aplicación frontend.
+ * Configura el sistema de rutas dinámicas (React Router), inicializa el sistema de 
+ * notificaciones (Sonner) y define la estructura de protección de rutas mediante
+ * el middleware de autenticación.
  * 
  * @component
- * @returns {JSX.Element} El árbol de componentes de la aplicación con rutas configuradas.
  */
 const App = () => {
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('app-theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }, []);
+
   return (
     <>
       <Toaster 
@@ -34,6 +46,8 @@ const App = () => {
             borderRadius: '12px',
             border: '1px solid var(--border-color)',
             boxShadow: '0 8px 24px var(--shadow-color)',
+            background: 'var(--bg-input)',
+            color: 'var(--text-main)',
           },
         }}
       />

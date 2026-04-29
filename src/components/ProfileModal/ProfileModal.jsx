@@ -1,3 +1,10 @@
+/**
+ * @file ProfileModal.jsx
+ * @description Componente modal para la gestión del perfil del usuario autenticado.
+ * Permite a los usuarios actualizar su foto de perfil (vía upload o drag & drop), 
+ * eliminar su foto actual y modificar su nombre de visualización.
+ */
+
 import React, { useState, useRef, useCallback, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { uploadProfilePicture, deleteProfilePicture, updateUserData } from '../../services/userService';

@@ -1,3 +1,9 @@
+/**
+ * @file Loader.jsx
+ * @description Componente de carga (spinner) reutilizable.
+ * Admite diferentes tamaños y colores para adaptarse a diversos contextos de la UI.
+ */
+
 import React from 'react';
 import './Loader.css';
 

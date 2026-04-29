@@ -1,8 +1,9 @@
-/* 
-Un componente a nivel de ruta que va a checkear si el usuario tiene o no sesion
-En caso de no tener redirecciona a login
-En caso de tener deja pasar
-*/
+/**
+ * @file AuthMiddleware.jsx
+ * @description Middleware a nivel de ruta que verifica si el usuario tiene una sesión activa.
+ * Si el usuario está autenticado, permite el acceso a las rutas hijas (Outlet).
+ * En caso contrario, redirige al usuario a la pantalla de inicio de sesión (/login).
+ */
 
 
 import React, { useContext } from 'react'

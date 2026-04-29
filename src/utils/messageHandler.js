@@ -1,6 +1,8 @@
 /**
- * Mapeo de mensajes de error técnicos a mensajes profesionales en español.
- * Evita mostrar datos sensibles y corrige ortografía.
+ * @file messageHandler.js
+ * @description Utilidad para la gestión y traducción de mensajes de la API.
+ * Centraliza el mapeo de códigos de error técnicos a mensajes amigables para el usuario final,
+ * asegurando que no se expongan detalles internos del servidor o la base de datos.
  */
 const ERROR_MESSAGES = {
     // Errores de Autenticación

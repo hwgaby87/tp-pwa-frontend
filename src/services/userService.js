@@ -1,3 +1,10 @@
+/**
+ * @file userService.js
+ * @description Servicio para la gestión de datos del usuario autenticado.
+ * Incluye funciones para subir y eliminar la foto de perfil, así como para actualizar 
+ * la información básica de la cuenta.
+ */
+
 import ENVIRONMENT from "../config/environment";
 import { LOCALSTORAGE_TOKEN_KEY } from "../context/AuthContext";
 

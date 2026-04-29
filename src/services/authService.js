@@ -1,3 +1,9 @@
+/**
+ * @file authService.js
+ * @description Servicio para la gestión de la autenticación de usuarios.
+ * Incluye funciones para el inicio de sesión, registro y restablecimiento de contraseña.
+ */
+
 import ENVIRONMENT from "../config/environment"
 
 /**

@@ -1,3 +1,10 @@
+/**
+ * @file ConfirmModal.jsx
+ * @description Componente genérico de diálogo de confirmación.
+ * Se utiliza para acciones críticas como eliminar o archivar elementos,
+ * mostrando una advertencia visual y botones de acción.
+ */
+
 import React from 'react';
 import './ConfirmModal.css';
 

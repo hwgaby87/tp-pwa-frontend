@@ -371,14 +371,6 @@
     background-size: 20px 20px;
 }
 
-[data-theme='dark'] .messages-area {
-    --bg-chat: #1a1614;
-}
-
-[data-theme='light'] .messages-area {
-    --bg-chat: #faf6f0;
-}
-
 .messages-list {
     display: flex;
     flex-direction: column;
