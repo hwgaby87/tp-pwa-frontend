@@ -10,11 +10,12 @@
     z-index: 1000;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
     .app-sidebar {
         position: fixed;
         left: 0;
         top: 0;
+        width: 300px;
         transform: translateX(-100%);
         box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
     }
@@ -40,9 +41,9 @@
     overflow-y: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
     .workspaces-column {
-        width: 80px;
+        width: 70px;
         padding: 1rem 0.2rem;
         position: relative;
     }
@@ -53,6 +54,27 @@
     .workspaces-column .ws-actions,
     .workspaces-column .toggle-text {
         display: none;
+    }
+
+    /* Permite ver el botón de restaurar en móvil */
+    .archived-item .ws-actions {
+        display: flex !important;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--bg-sidebar);
+        border-radius: 50%;
+        padding: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .archived-item {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 0.5rem 0;
     }
 
     .archived-toggle {
@@ -856,18 +878,27 @@ li:hover .item-actions {
 }
 
 .archived-item {
-    opacity: 0.6;
-    transition: opacity 0.2s;
+    opacity: 0.8;
+    transition: all 0.2s;
+    margin: 0.5rem 0;
+    width: 100%;
 }
 
 .archived-item:hover {
     opacity: 1;
+    background-color: var(--bg-hover);
+    border-radius: 8px;
 }
 
 .ws-avatar.archived {
     background-color: var(--bg-active);
     color: var(--text-muted);
-    filter: grayscale(1);
+    filter: grayscale(0.8);
+    transition: all 0.2s;
+}
+
+.archived-item:hover .ws-avatar.archived {
+    filter: grayscale(0);
 }
 
 .archived-link {
@@ -875,7 +906,37 @@ li:hover .item-actions {
     align-items: center;
     gap: 0.8rem;
     flex: 1;
-    padding: 0.5rem 0;
+    padding: 0.4rem;
+}
+
+/* Mobile specific for archived items */
+@media (max-width: 780px) {
+    .archived-item {
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+
+    .archived-item .ws-actions {
+        display: flex !important;
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        z-index: 5;
+    }
+
+    .archived-item .restore-btn {
+        width: 24px !important;
+        height: 24px !important;
+        padding: 0 !important;
+        background: var(--accent-color) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
 }
 
 .restore-btn {
