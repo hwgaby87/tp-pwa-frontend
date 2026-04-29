@@ -808,16 +808,17 @@ li:hover .item-actions {
     margin-top: 1.5rem;
     padding: 0.8rem 1rem;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.08);
     border-radius: 8px;
     font-size: 0.85rem;
-    color: var(--text-muted);
-    transition: background 0.2s;
-    border: 1px dashed var(--border-color);
+    color: var(--text-main);
+    font-weight: 600;
+    transition: all 0.2s;
+    border: 1px solid var(--border-color);
 }
 
 [data-theme='dark'] .archived-toggle {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .archived-toggle:hover {
