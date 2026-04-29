@@ -51,8 +51,22 @@
     .workspaces-column .app-name-text,
     .workspaces-column .user-details,
     .workspaces-column .ws-actions,
-    .workspaces-column .toggle-header span:first-child {
+    .workspaces-column .toggle-text {
         display: none;
+    }
+
+    .archived-toggle {
+        padding: 0.8rem 0.2rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .archived-toggle .toggle-icon {
+        display: none;
+    }
+
+    .archived-toggle .toggle-folder-icon {
+        font-size: 1.2rem;
     }
 
     .workspaces-column .add-btn {

@@ -704,7 +704,7 @@ const Sidebar = () => {
                             {archivedWorkspaces.length > 0 && (
                                 <li className={`archived-toggle ${showArchivedWorkspaces ? 'is-open' : ''}`} onClick={() => setShowArchivedWorkspaces(!showArchivedWorkspaces)}>
                                     <div className="toggle-header">
-                                        <span>📁 Archivados ({archivedWorkspaces.length})</span>
+                                        <span className="toggle-label"><span className="toggle-folder-icon">📁</span> <span className="toggle-text">Archivados ({archivedWorkspaces.length})</span></span>
                                         <span className="toggle-icon">{showArchivedWorkspaces ? '▼' : '▶'}</span>
                                     </div>
                                 </li>
