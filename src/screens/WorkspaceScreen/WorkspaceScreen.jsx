@@ -511,19 +511,6 @@ const WorkspaceScreen = () => {
                             </div>
                         ) : (
                             <div className="channel-header-container dm-header">
-                                <button 
-                                    className="mobile-menu-btn" 
-                                    onClick={() => setIsSidebarOpen(true)}
-                                    aria-label="Abrir menú"
-                                >
-                                    ☰
-                                </button>
-                                <div className="workspace-breadcrumb">
-                                    <span className="ws-breadcrumb-name">
-                                        {workspaceInfo?.title || 'Espacio de Trabajo'}
-                                    </span>
-                                    <span className="breadcrumb-separator">/</span>
-                                </div>
                                 <div className="channel-info-row">
                                     <div className="partner-avatar" style={{ backgroundColor: getUserColor(dmMemberInfo?.user_id) }}>
                                         {dmMemberInfo?.user_name?.substring(0, 1).toUpperCase() || '@'}
@@ -628,13 +615,6 @@ const WorkspaceScreen = () => {
                     </>
                 ) : (
                     <div className="no-channel-selected">
-                        <button 
-                            className="mobile-menu-btn absolute" 
-                            onClick={() => setIsSidebarOpen(true)}
-                            aria-label="Abrir menú"
-                        >
-                            ☰
-                        </button>
                         <div className="select-icon-container">
                             <span className="floating-icon">💬</span>
                         </div>
