@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
 import { getMessages, sendMessage, deleteMessage } from '../../services/messageService';
-import { getWorkspaceById, updateWorkspace } from '../../services/workspaceService';
+import { getWorkspaceById, updateWorkspace, uploadWorkspaceImage, deleteWorkspaceImage } from '../../services/workspaceService';
 import { getChannels, updateChannel } from '../../services/channelService';
 import { getDirectMessages, sendDirectMessage, deleteDirectMessage } from '../../services/directMessageService';
 import { Sidebar, Loader } from '../../components';
@@ -93,6 +93,44 @@ const WorkspaceScreen = () => {
     const [isEditingChannel, setIsEditingChannel] = useState(false);
     const [editingChannelName, setEditingChannelName] = useState('');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const workspaceImageRef = useRef(null);
+
+    const handleWorkspaceImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const loadingToast = toast.loading('Subiendo imagen del espacio...');
+        try {
+            const response = await uploadWorkspaceImage(workspace_id, file);
+            if (response.ok) {
+                toast.success('Imagen del espacio actualizada', { id: loadingToast });
+                loadWorkspaceInfo(workspace_id);
+                window.dispatchEvent(new Event('workspaceUpdated'));
+            } else {
+                toast.error(response.message || 'Error al subir la imagen', { id: loadingToast });
+            }
+        } catch (error) {
+            toast.error('Error al subir la imagen', { id: loadingToast });
+        }
+    };
+
+    const handleWorkspaceImageDelete = async () => {
+        if (!window.confirm('¿Estás seguro de que quieres eliminar la imagen de este espacio?')) return;
+
+        const loadingToast = toast.loading('Eliminando imagen...');
+        try {
+            const response = await deleteWorkspaceImage(workspace_id);
+            if (response.ok) {
+                toast.success('Imagen eliminada', { id: loadingToast });
+                loadWorkspaceInfo(workspace_id);
+                window.dispatchEvent(new Event('workspaceUpdated'));
+            } else {
+                toast.error(response.message || 'Error al eliminar la imagen', { id: loadingToast });
+            }
+        } catch (error) {
+            toast.error('Error al eliminar la imagen', { id: loadingToast });
+        }
+    };
 
     useEffect(() => {
         if (workspace_id) {
@@ -383,6 +421,43 @@ const WorkspaceScreen = () => {
                                                     autoFocus
                                                     required
                                                 />
+                                                <label>Imagen del Espacio</label>
+                                                <div className="workspace-image-edit">
+                                                    <div className="ws-image-preview">
+                                                        {workspaceInfo?.url_image ? (
+                                                            <img src={workspaceInfo.url_image} alt="Workspace" />
+                                                        ) : (
+                                                            <div className="ws-image-placeholder">
+                                                                {workspaceInfo?.title?.substring(0, 2).toUpperCase()}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="ws-image-actions">
+                                                        <button 
+                                                            type="button" 
+                                                            className="btn-sm btn-primary"
+                                                            onClick={() => workspaceImageRef.current?.click()}
+                                                        >
+                                                            Cambiar
+                                                        </button>
+                                                        {workspaceInfo?.url_image && !workspaceInfo.url_image.includes('ui-avatars.com') && (
+                                                            <button 
+                                                                type="button" 
+                                                                className="btn-sm btn-ghost-red"
+                                                                onClick={handleWorkspaceImageDelete}
+                                                            >
+                                                                Eliminar
+                                                            </button>
+                                                        )}
+                                                        <input 
+                                                            ref={workspaceImageRef}
+                                                            type="file"
+                                                            accept="image/*"
+                                                            style={{ display: 'none' }}
+                                                            onChange={handleWorkspaceImageUpload}
+                                                        />
+                                                    </div>
+                                                </div>
                                                 <label>Descripción</label>
                                                 <textarea 
                                                     value={editingWorkspaceDescription}

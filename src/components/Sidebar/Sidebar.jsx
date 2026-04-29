@@ -598,7 +598,11 @@ const Sidebar = () => {
                                         <div className="list-item-content">
                                             <Link to={`/workspace/${ws.workspace_id}`} title={ws.workspace_description || ''}>
                                                 <div className="ws-avatar">
-                                                    {ws.workspace_title.substring(0, 2).toUpperCase()}
+                                                    {ws.url_image ? (
+                                                        <img src={ws.url_image} alt={ws.workspace_title} className="ws-avatar-img" />
+                                                    ) : (
+                                                        ws.workspace_title.substring(0, 2).toUpperCase()
+                                                    )}
                                                 </div>
                                                 <span className="ws-name">{ws.workspace_title}</span>
                                             </Link>
@@ -637,7 +641,11 @@ const Sidebar = () => {
                                     <div className="list-item-content">
                                         <div className="archived-link">
                                             <div className="ws-avatar archived">
-                                                {ws.workspace_title.substring(0, 2).toUpperCase()}
+                                                {ws.url_image ? (
+                                                    <img src={ws.url_image} alt={ws.workspace_title} className="ws-avatar-img" />
+                                                ) : (
+                                                    ws.workspace_title.substring(0, 2).toUpperCase()
+                                                )}
                                             </div>
                                             <span className="ws-name">{ws.workspace_title}</span>
                                         </div>

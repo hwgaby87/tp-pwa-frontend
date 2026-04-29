@@ -132,6 +132,28 @@
     }
 }
 
+.ws-avatar {
+    width: 32px;
+    height: 32px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.ws-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 @media (max-width: 576px) {
     .app-sidebar {
         flex-direction: row; /* Keep them side by side but maybe adjust proportions */

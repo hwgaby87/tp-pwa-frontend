@@ -141,3 +141,38 @@ export async function getUserWorkspaces(user_id) {
     const response = await response_http.json()
     return response
 }
+
+export async function uploadWorkspaceImage(workspace_id, imageFile) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    const response_http = await fetch(
+        ENVIRONMENT.API_URL + '/api/workspaces/' + workspace_id + '/image',
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)
+                // Content-Type is set automatically by the browser for FormData
+            },
+            body: formData
+        }
+    );
+
+    const response = await response_http.json();
+    return response;
+}
+
+export async function deleteWorkspaceImage(workspace_id) {
+    const response_http = await fetch(
+        ENVIRONMENT.API_URL + '/api/workspaces/' + workspace_id + '/image',
+        {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)
+            }
+        }
+    );
+
+    const response = await response_http.json();
+    return response;
+}
