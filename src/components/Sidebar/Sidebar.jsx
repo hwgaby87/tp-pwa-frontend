@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
-import { createWorkspace, getWorkspaces, updateWorkspace, deleteWorkspace, restoreWorkspace } from '../../services/workspaceService';
+import { createWorkspace, getWorkspaces, updateWorkspace, deleteWorkspace, restoreWorkspace, uploadWorkspaceImage, deleteWorkspaceImage } from '../../services/workspaceService';
 import { getChannels, createChannel, updateChannel, deleteChannel, restoreChannel, getDeletedChannels } from '../../services/channelService';
 import { AuthContext } from '../../context/AuthContext';
 import ENVIRONMENT from '../../config/environment';
@@ -58,6 +58,43 @@ const Sidebar = () => {
         onConfirm: () => {},
         type: 'danger'
     });
+
+    const workspaceImageRef = useRef(null);
+
+    const handleWorkspaceImageUpload = async (e, wsId) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const loadingToast = toast.loading('Subiendo imagen del espacio...');
+        try {
+            const response = await uploadWorkspaceImage(wsId, file);
+            if (response.ok) {
+                toast.success('Imagen del espacio actualizada', { id: loadingToast });
+                loadWorkspaces();
+            } else {
+                toast.error(response.message || 'Error al subir la imagen', { id: loadingToast });
+            }
+        } catch (error) {
+            toast.error('Error al subir la imagen', { id: loadingToast });
+        }
+    };
+
+    const handleWorkspaceImageDelete = async (wsId) => {
+        if (!window.confirm('¿Estás seguro de que quieres eliminar la imagen de este espacio?')) return;
+
+        const loadingToast = toast.loading('Eliminando imagen...');
+        try {
+            const response = await deleteWorkspaceImage(wsId);
+            if (response.ok) {
+                toast.success('Imagen eliminada', { id: loadingToast });
+                loadWorkspaces();
+            } else {
+                toast.error(response.message || 'Error al eliminar la imagen', { id: loadingToast });
+            }
+        } catch (error) {
+            toast.error('Error al eliminar la imagen', { id: loadingToast });
+        }
+    };
 
     const [unreadChannels, setUnreadChannels] = useState(() => {
         const saved = localStorage.getItem('unread_channels');
@@ -583,6 +620,43 @@ const Sidebar = () => {
                                                 placeholder="Nombre"
                                                 required
                                             />
+                                            <div className="sidebar-ws-image-edit">
+                                                <div className="ws-image-preview-mini">
+                                                    {ws.url_image ? (
+                                                        <img src={ws.url_image} alt="WS" />
+                                                    ) : (
+                                                        <div className="ws-image-placeholder-mini">
+                                                            {ws.workspace_title.substring(0, 2).toUpperCase()}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="ws-image-btns-mini">
+                                                    <button 
+                                                        type="button" 
+                                                        onClick={() => workspaceImageRef.current?.click()}
+                                                        title="Cambiar imagen"
+                                                    >
+                                                        📷
+                                                    </button>
+                                                    {ws.url_image && !ws.url_image.includes('ui-avatars.com') && (
+                                                        <button 
+                                                            type="button" 
+                                                            onClick={() => handleWorkspaceImageDelete(ws.workspace_id)}
+                                                            title="Eliminar imagen"
+                                                            className="btn-del-mini"
+                                                        >
+                                                            🗑️
+                                                        </button>
+                                                    )}
+                                                    <input 
+                                                        ref={workspaceImageRef}
+                                                        type="file"
+                                                        accept="image/*"
+                                                        style={{ display: 'none' }}
+                                                        onChange={(e) => handleWorkspaceImageUpload(e, ws.workspace_id)}
+                                                    />
+                                                </div>
+                                            </div>
                                             <textarea
                                                 value={editingWorkspaceDescription}
                                                 onChange={(e) => setEditingWorkspaceDescription(e.target.value)}

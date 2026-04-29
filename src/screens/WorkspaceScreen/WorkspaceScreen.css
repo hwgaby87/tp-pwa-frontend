@@ -63,8 +63,18 @@
 }
 
 /* Header */
+.workspace-global-header {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--bg-main);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 6;
+}
+
 .channel-header-container {
-    padding: 1rem 2rem;
+    padding: 0.8rem 2rem;
     background-color: var(--bg-main);
     border-bottom: 1px solid var(--border-color);
     display: flex;

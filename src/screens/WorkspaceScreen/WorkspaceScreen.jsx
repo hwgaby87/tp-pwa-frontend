@@ -399,18 +399,15 @@ const WorkspaceScreen = () => {
             <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
             {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
             <main className="workspace-main-content">
-                {channel_id || member_id ? (
-                    <>
-                        {channel_id ? (
-                            <div className="channel-header-container">
-                                <button 
-                                    className="mobile-menu-btn" 
-                                    onClick={() => setIsSidebarOpen(true)}
-                                    aria-label="Abrir menú"
-                                >
-                                    ☰
-                                </button>
-                                <div className="workspace-breadcrumb">
+                <div className="workspace-global-header">
+                    <button 
+                        className="mobile-menu-btn" 
+                        onClick={() => setIsSidebarOpen(true)}
+                        aria-label="Abrir menú"
+                    >
+                        ☰
+                    </button>
+                    <div className="workspace-breadcrumb">
                                     {isEditingWorkspace ? (
                                         <form onSubmit={handleUpdateWorkspace} className="header-edit-form workspace-edit-popover">
                                             <div className="popover-content">
@@ -483,10 +480,14 @@ const WorkspaceScreen = () => {
                                             <span className="edit-icon-hint">✏️</span>
                                         </div>
                                     )}
-                                    <span className="breadcrumb-separator">/</span>
                                 </div>
-                                
-                                <div className="channel-info-row">
+                            </div>
+
+                            {channel_id || member_id ? (
+                                <>
+                                    {channel_id ? (
+                                        <div className="channel-header-container">
+                                            <div className="channel-info-row">
                                     {isEditingChannel ? (
                                         <form onSubmit={handleUpdateChannelName} className="header-edit-form channel-edit-form">
                                             <input 
