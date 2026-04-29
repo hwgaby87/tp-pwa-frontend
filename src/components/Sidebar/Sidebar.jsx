@@ -3,10 +3,12 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { createWorkspace, getWorkspaces, updateWorkspace, deleteWorkspace, restoreWorkspace } from '../../services/workspaceService';
 import { getChannels, createChannel, updateChannel, deleteChannel, restoreChannel, getDeletedChannels } from '../../services/channelService';
 import { AuthContext } from '../../context/AuthContext';
-import { ThemeToggle, ConfirmModal } from '..';
+import ENVIRONMENT from '../../config/environment';
+import { ThemeToggle, ConfirmModal, ProfileModal } from '..';
 import { toast } from 'sonner';
 import { getFriendlyMessage } from '../../utils/messageHandler';
 import './Sidebar.css';
+
 
 /**
  * Componente de barra lateral que gestiona la navegación entre espacios de trabajo,
@@ -17,7 +19,9 @@ import './Sidebar.css';
 const Sidebar = () => {
     const navigate = useNavigate();
     const { workspace_id, channel_id, member_id: dm_member_id } = useParams();
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout, setUser, updateToken } = useContext(AuthContext);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
     const [workspaces, setWorkspaces] = useState([]);
     const [channels, setChannels] = useState([]);
     const [loadingWorkspaces, setLoadingWorkspaces] = useState(true);
@@ -488,6 +492,9 @@ const Sidebar = () => {
         setEditingChannelId(channel.channel_id);
         setEditingChannelName(channel.channel_name);
     };
+    
+
+
 
     const currentUserMember = members.find(m => m.user_id === user?.id || m.user_id === user?._id);
     const currentUserRole = currentUserMember?.member_role;
@@ -503,6 +510,11 @@ const Sidebar = () => {
                 onConfirm={confirmModal.onConfirm}
                 onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
             />
+            <ProfileModal
+                isOpen={isProfileModalOpen}
+                onClose={() => setIsProfileModalOpen(false)}
+            />
+
             {/* Sección de Espacios de Trabajo */}
             <div className="workspaces-column">
                 <div className="column-header app-brand">
@@ -644,12 +656,26 @@ const Sidebar = () => {
                 {/* Sección del Perfil de Usuario en la parte inferior de la columna */}
                 <div className="sidebar-user-profile">
                     <div className="user-info">
-                        <div className="user-avatar">
+                        <div 
+                            className="user-avatar" 
+                            onClick={() => setIsProfileModalOpen(true)}
+                            title="Editar perfil"
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => e.key === 'Enter' && setIsProfileModalOpen(true)}
+                        >
                             {user?.image ? (
-                                <img src={user.image} alt={user.name} className="avatar-img" />
+                                <img 
+                                    src={user.image.startsWith('http') ? user.image : `${ENVIRONMENT.API_URL}${user.image}`} 
+                                    alt={user.name} 
+                                    className="avatar-img" 
+                                />
                             ) : (
                                 user?.name?.substring(0, 1).toUpperCase() || 'U'
                             )}
+                            <div className="avatar-overlay">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            </div>
                         </div>
                         <div className="user-details">
                             <span className="user-name">{user?.name || 'Usuario'}</span>
@@ -664,6 +690,7 @@ const Sidebar = () => {
                     </div>
                 </div>
             </div>
+
 
             {/* Sección de Canales y Miembros */}
             <div className="channels-column">

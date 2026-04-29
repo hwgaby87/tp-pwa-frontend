@@ -75,11 +75,21 @@ function AuthContextProvider({ children }) {
         navigate('/login');
     }
 
+    function updateToken(newToken) {
+        localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, newToken);
+        const userData = decodeToken(newToken);
+        if (userData) {
+            setUser(userData);
+        }
+    }
+
     const providerValues = {
         isLogged,
         user,
         manageLogin,
-        logout
+        logout,
+        setUser,
+        updateToken
     };
 
     return (
