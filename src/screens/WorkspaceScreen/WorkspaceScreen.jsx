@@ -1,3 +1,10 @@
+/**
+ * @file WorkspaceScreen.jsx
+ * @description Pantalla principal de trabajo.
+ * Este componente gestiona el layout del espacio de trabajo seleccionado, incluyendo
+ * el encabezado global, el chat del canal y la integración con la barra lateral.
+ */
+
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
@@ -80,6 +87,7 @@ const WorkspaceScreen = () => {
     const { workspace_id, channel_id, member_id } = useParams();
     const navigate = useNavigate();
     const messagesEndRef = useRef(null);
+    // --- Estados de Datos ---
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [loadingMessages, setLoadingMessages] = useState(false);
@@ -87,6 +95,7 @@ const WorkspaceScreen = () => {
     const [dmMemberInfo, setDmMemberInfo] = useState(null);
     const [workspaceInfo, setWorkspaceInfo] = useState(null);
     
+    // --- Estados de Edición y UI ---
     const [isEditingWorkspace, setIsEditingWorkspace] = useState(false);
     const [editingWorkspaceName, setEditingWorkspaceName] = useState('');
     const [editingWorkspaceDescription, setEditingWorkspaceDescription] = useState('');

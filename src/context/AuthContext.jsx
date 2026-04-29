@@ -1,3 +1,9 @@
+/**
+ * @file AuthContext.jsx
+ * @description Gestión del estado global de autenticación del usuario.
+ * Utiliza el Context API de React para proveer datos del usuario y métodos de login/logout.
+ */
+
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
@@ -12,12 +18,14 @@ export const AuthContext = createContext({
     logout: () => {}
 });
 
+/** Clave utilizada para persistir el token en el almacenamiento local del navegador */
 export const LOCALSTORAGE_TOKEN_KEY = 'auth_token_slack';
 
 /**
- * Decodifica un token JWT para extraer la información del usuario.
- * @param {string} token - Token JWT.
- * @returns {Object|null} Información del usuario decodificada o null si falla.
+ * Decodifica un token JWT para extraer la información del usuario de forma manual.
+ * No requiere librerías externas de JWT en el frontend.
+ * @param {string} token - Token JWT codificado en Base64.
+ * @returns {Object|null} Información del usuario decodificada o null si el token es inválido.
  */
 const decodeToken = (token) => {
     try {
@@ -34,17 +42,22 @@ const decodeToken = (token) => {
 
 /**
  * Proveedor del contexto de autenticación.
- * Maneja la persistencia del token en localStorage y el estado global del usuario.
+ * Maneja la persistencia del token en localStorage y sincroniza el estado global.
  * 
  * @component
  */
 function AuthContextProvider({ children }) {
     const navigate = useNavigate();
+    
+    /** Estado que indica si el usuario tiene una sesión activa */
     const [isLogged, setIsLogged] = useState(
         Boolean(localStorage.getItem(LOCALSTORAGE_TOKEN_KEY))
     );
+    
+    /** Datos del usuario extraídos del token (nombre, email, id, imagen) */
     const [user, setUser] = useState(null);
 
+    /** Al montar el componente, verifica si existe un token válido y recupera al usuario */
     useEffect(() => {
         const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
         if (token) {
@@ -53,6 +66,7 @@ function AuthContextProvider({ children }) {
                 setUser(userData);
                 setIsLogged(true);
             } else {
+                // Si el token está corrupto, limpia la sesión
                 localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
                 setIsLogged(false);
                 setUser(null);
@@ -60,6 +74,10 @@ function AuthContextProvider({ children }) {
         }
     }, []);
 
+    /**
+     * Procesa el inicio de sesión exitoso.
+     * @param {string} auth_token - Token JWT entregado por el backend.
+     */
     function manageLogin(auth_token) {
         localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, auth_token);
         const userData = decodeToken(auth_token);
@@ -68,6 +86,9 @@ function AuthContextProvider({ children }) {
         navigate('/home');
     }
 
+    /**
+     * Cierra la sesión del usuario eliminando el token y redirigiendo al login.
+     */
     function logout() {
         localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
         setIsLogged(false);
@@ -75,6 +96,10 @@ function AuthContextProvider({ children }) {
         navigate('/login');
     }
 
+    /**
+     * Actualiza el token almacenado (útil después de actualizar el perfil).
+     * @param {string} newToken - El nuevo token JWT con datos actualizados.
+     */
     function updateToken(newToken) {
         localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, newToken);
         const userData = decodeToken(newToken);
