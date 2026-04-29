@@ -622,8 +622,8 @@ const Sidebar = () => {
                                             />
                                             <div className="sidebar-ws-image-edit">
                                                 <div className="ws-image-preview-mini">
-                                                    {ws.url_image ? (
-                                                        <img src={ws.url_image} alt="WS" />
+                                                    {ws.workspace_url_image ? (
+                                                        <img src={ws.workspace_url_image} alt="WS" />
                                                     ) : (
                                                         <div className="ws-image-placeholder-mini">
                                                             {ws.workspace_title.substring(0, 2).toUpperCase()}
@@ -638,7 +638,7 @@ const Sidebar = () => {
                                                     >
                                                         📷
                                                     </button>
-                                                    {ws.url_image && !ws.url_image.includes('ui-avatars.com') && (
+                                                    {ws.workspace_url_image && !ws.workspace_url_image.includes('ui-avatars.com') && (
                                                         <button 
                                                             type="button" 
                                                             onClick={() => handleWorkspaceImageDelete(ws.workspace_id)}
@@ -672,8 +672,8 @@ const Sidebar = () => {
                                         <div className="list-item-content">
                                             <Link to={`/workspace/${ws.workspace_id}`} title={ws.workspace_description || ''}>
                                                 <div className="ws-avatar">
-                                                    {ws.url_image ? (
-                                                        <img src={ws.url_image} alt={ws.workspace_title} className="ws-avatar-img" />
+                                                    {ws.workspace_url_image ? (
+                                                        <img src={ws.workspace_url_image} alt={ws.workspace_title} className="ws-avatar-img" />
                                                     ) : (
                                                         ws.workspace_title.substring(0, 2).toUpperCase()
                                                     )}
@@ -715,8 +715,8 @@ const Sidebar = () => {
                                     <div className="list-item-content">
                                         <div className="archived-link">
                                             <div className="ws-avatar archived">
-                                                {ws.url_image ? (
-                                                    <img src={ws.url_image} alt={ws.workspace_title} className="ws-avatar-img" />
+                                                {ws.workspace_url_image ? (
+                                                    <img src={ws.workspace_url_image} alt={ws.workspace_title} className="ws-avatar-img" />
                                                 ) : (
                                                     ws.workspace_title.substring(0, 2).toUpperCase()
                                                 )}
