@@ -41,64 +41,7 @@
     overflow-y: auto;
 }
 
-@media (max-width: 780px) {
-    .workspaces-column {
-        width: 70px;
-        padding: 1rem 0.2rem;
-        position: relative;
-    }
-    
-    .workspaces-column .ws-name,
-    .workspaces-column .app-name-text,
-    .workspaces-column .user-details,
-    .workspaces-column .ws-actions,
-    .workspaces-column .toggle-text {
-        display: none;
-    }
-
-    /* Permite ver el botón de restaurar en móvil */
-    .archived-item .ws-actions {
-        display: flex !important;
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: var(--bg-sidebar);
-        border-radius: 50%;
-        padding: 4px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    .archived-item {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding: 0.5rem 0;
-    }
-
-    .archived-toggle {
-        padding: 0.8rem 0.2rem;
-        display: flex;
-        justify-content: center;
-    }
-
-    .archived-toggle .toggle-icon {
-        display: none;
-    }
-
-    .archived-toggle .toggle-folder-icon {
-        font-size: 1.2rem;
-    }
-
-    .workspaces-column .add-btn {
-        display: flex;
-        margin-top: 10px;
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
-        font-size: 1.2rem;
-    }
+/* Styles handled by vertical stack query below */
 
     .sidebar-form {
         position: fixed !important;
@@ -190,18 +133,39 @@
     object-fit: cover;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 780px) {
     .app-sidebar {
-        flex-direction: row; /* Keep them side by side but maybe adjust proportions */
+        flex-direction: column;
+        width: 280px;
     }
     
     .workspaces-column {
-        width: 70px;
+        width: 100% !important;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        max-height: 40%;
     }
-    
+
     .channels-column {
         flex: 1;
-        width: auto;
+        width: 100% !important;
+    }
+
+    .workspaces-column .ws-name,
+    .workspaces-column .app-name-text,
+    .workspaces-column .user-details,
+    .workspaces-column .ws-actions,
+    .workspaces-column .toggle-text {
+        display: flex !important;
+    }
+
+    .archived-toggle {
+        padding: 0.8rem 1rem !important;
+        justify-content: space-between !important;
+    }
+
+    .archived-toggle .toggle-icon {
+        display: block !important;
     }
 }
 
