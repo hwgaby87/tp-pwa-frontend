@@ -26,8 +26,6 @@ const ProfileModal = ({ isOpen, onClose }) => {
     const [editingName, setEditingName] = useState(false);
     const [newName, setNewName] = useState(user?.name || '');
 
-    if (!isOpen) return null;
-
     const getCurrentAvatarSrc = () => {
         if (preview) return preview;
         if (user?.image) {
@@ -161,6 +159,8 @@ const ProfileModal = ({ isOpen, onClose }) => {
 
     const avatarSrc = getCurrentAvatarSrc();
     const initials = user?.name?.substring(0, 2).toUpperCase() || 'U';
+
+    if (!isOpen) return null;
 
     return (
         <div className="profile-modal-overlay" onClick={handleCancel}>
