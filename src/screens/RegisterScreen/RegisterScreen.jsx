@@ -17,6 +17,7 @@ const RegisterScreen = () => {
     } = useRequest()
 
     const [successMessage, setSuccessMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const REGISTER_FORM_FIELDS = {
         EMAIL: 'email',
@@ -77,7 +78,6 @@ const RegisterScreen = () => {
         [response, error]
     )
 
-    const [errorMessage, setErrorMessage] = useState(null)
 
     return (
         <div className="auth-container">
